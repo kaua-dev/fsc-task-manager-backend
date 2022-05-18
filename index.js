@@ -14,8 +14,9 @@ app.get("/tasks", async (req, res) => {
     try {
         const tasks = await TaskModel.find({});
         res.status(200).send(tasks);
-    } catch (error) {}
-    res.status(500).send(error.message);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
 });
 
 app.get("/tasks/:id", async (req, res) => {
@@ -42,6 +43,33 @@ app.post("/tasks", async (req, res) => {
         res.status(201).send(newTask);
     } catch (error) {
         res.status(500).send(error.message);
+    }
+});
+
+app.patch("task/:id", async (req, res) => {
+    try {
+        const taskId = req.params.id;
+        const taskData = req.body;
+
+        const taskToUpdate = await TaskModel.findById(taskId);
+
+        const allowedUpdates = ["isCompleted"];
+        const requestedUpdates = Object.keys(req.body);
+
+        for (update of allowedUpdates) {
+            if (allowedUpdates.includes(updates)) {
+                taskToUpdate[update] = taskData[update];
+            } else {
+                return res
+                    .status(500)
+                    .send("Um ou mais campos não podem ser editados.");
+            }
+        }
+
+        await taskToUpdate.save();
+        return res.status(200).send(taskToUpdate);
+    } catch (error) {
+        return res.status(500).send(error.message);
     }
 });
 

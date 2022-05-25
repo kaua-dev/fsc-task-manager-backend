@@ -1,5 +1,6 @@
 const TaskModel = require("../models/task.model");
 const { notFoundError } = require("../errors/mongodb.errors");
+const { notAllowedFieldsUpdateError } = require("../errors/general.errors");
 
 class TaskController {
     constructor(req, res) {
@@ -58,13 +59,11 @@ class TaskController {
             const allowedUpdates = ["isCcompleted"];
             const requestedUpdates = Object.keys(taskData);
 
-            for (const update of allowedUpdates) {
+            for (const update of requestedUpdates) {
                 if (allowedUpdates.includes(update)) {
                     taskToUpdate[update] = taskData[update];
                 } else {
-                    return this.res
-                        .status(500)
-                        .send("Um ou mais campos não podem ser editados.");
+                    return notAllowedFieldsUpdateError(this.res);
                 }
             }
 

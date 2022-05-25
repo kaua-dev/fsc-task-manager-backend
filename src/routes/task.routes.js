@@ -20,7 +20,7 @@ router.patch("/:id", async (req, res) => {
     return new TaskController(req, res).update();
 });
 
-router.delete("/tasks/:id", async (req, res) => {
+router.delete("/:id", async (req, res) => {
     return new TaskController(req, res).delete();
 });
 

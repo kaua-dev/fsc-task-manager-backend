@@ -62,7 +62,7 @@ class TaskController {
                 return notFoundError(this.res);
             }
 
-            const allowedUpdates = ["isCcompleted"];
+            const allowedUpdates = ["isCompleted"];
             const requestedUpdates = Object.keys(taskData);
 
             for (const update of requestedUpdates) {
@@ -96,10 +96,8 @@ class TaskController {
 
             this.res.status(200).send(deletedTask);
         } catch (error) {
-            if (error instanceof mongoose.Error.CastError)
-                return objectIdCastError(this.res);
+            this.res.status(500).send(error.message);
         }
-        this.res.status(500).send(error.message);
     }
 }
 

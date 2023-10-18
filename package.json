@@ -5,8 +5,7 @@
     "main": "index.js",
     "scripts": {
         "start:dev": "nodemon index.js",
-        "start": "node index.js",
-        "vercel-biuld": "npm run start"
+        "vercel-biuld": "node index.js"
     },
     "enginess": {
         "node": "16.15.0"

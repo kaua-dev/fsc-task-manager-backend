@@ -7,7 +7,6 @@ const router = express.Router();
 router.get("/", async (req, res) => {
     return new TaskController(req, res).getAll();
 });
-
 router.get("/:id", async (req, res) => {
     return new TaskController(req, res).getById();
 });
